@@ -1,0 +1,110 @@
+﻿----------------------------------------建立数据库--------------------------------------------------
+CREATE DATABASE noter DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+use noter;
+
+CREATE TABLE user(nickname varchar(14) PRIMARY KEY,email varchar(50) UNIQUE,password varchar(20) NOT NULL,reg_time DATETIME NOT NULL,log_time DATETIME) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE category(cid INT AUTO_INCREMENT PRIMARY KEY,cname varchar(15) NOT NULL,username varchar(14) NOT NULL,FOREIGN KEY (username) REFERENCES user(nickname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE crelation(outcat INT,incat INT,PRIMARY KEY(outcat,incat),FOREIGN KEY (outcat) REFERENCES category(cid),FOREIGN KEY (incat) REFERENCES category(cid)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE note(title varchar(20),username varchar(14),keyword varchar(10),ncontent varchar(1000) NOT NULL,pub_time DATETIME NOT NULL,mod_time DATETIME,cid INT,visible TINYINT(1) NOT NULL DEFAULT 0 CHECK(visiable IN (1,0)),PRIMARY KEY(title,username),FOREIGN KEY (username) REFERENCES user(nickname),FOREIGN KEY (cid) REFERENCES category(cid)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE usergroup(gname varchar(10),username varchar(14),gdescription varchar(150),mem_num INT DEFAULT 0,PRIMARY KEY(gname,username),FOREIGN KEY (username) REFERENCES user(nickname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE belong(username varchar(14),groupname varchar(20),PRIMARY KEY (username,groupname),FOREIGN KEY (username) REFERENCES user(nickname),FOREIGN KEY (groupname) REFERENCES usergroup(gname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE comment(cid INT AUTO_INCREMENT,note varchar(20) NOT NULL,username varchar(14) NOT NULL,ccontent varchar(300) NOT NULL,ctime DATETIME NOT NULL,PRIMARY KEY (cid),FOREIGN KEY (note) REFERENCES note(title),FOREIGN KEY (username) REFERENCES user(nickname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE invatation(iid INT AUTO_INCREMENT,icontent varchar(80),itime DATETIME NOT NULL,send varchar(14) NOT NULL,receive varchar(14) NOT NULL,aim varchar(10) NOT NULL,PRIMARY KEY (iid),FOREIGN KEY (send) REFERENCES user(nickname),FOREIGN KEY (receive) REFERENCES user(nickname),FOREIGN KEY (aim) REFERENCES usergroup(gname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE notice(nid INT AUTO_INCREMENT,username varchar(14) NOT NULL,ncontent varchar(40) NOT NULL,ntime DATETIME NOT NULL,PRIMARY KEY (nid),FOREIGN KEY (username) REFERENCES user(nickname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+CREATE TABLE grouplog(gid INT AUTO_INCREMENT,groupname varchar(20) NOT NULL,gcontent varchar(50) NOT NULL,gtime DATETIME NOT NULL,PRIMARY KEY (gid),FOREIGN KEY (groupname) REFERENCES usergroup(gname)) DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
+
+
+----------------------------------------插入测试数据--------------------------------------------------
+INSERT INTO user(nickname,email,password,reg_time) VALUES('王一','wangyi@qq.com','wangyi','2016-05-18 00:55:00');
+INSERT INTO user VALUES('Tracy','tracy@163.com','tracy','2016-05-18 00:55:00','2016-05-19 08:55:10');
+INSERT INTO user VALUES('赵二','zhaoer@gmile.com','zhaoer','2016-05-19 08:40:07','2016-05-19 08:43:10');
+INSERT INTO user VALUES('Maggi','Maggi@qq.com','Maggi','2016-05-19 06:44:25','2016-05-19 07:10:11');
+INSERT INTO user VALUES('Bob','Bob@163.com','Bob','2016-05-19 06:47:27','2016-05-19 06:47:30');
+INSERT INTO user VALUES('Anna','Anna@qq.com','Anna','2016-05-19 10:51:21','2016-05-19 10:53:30');
+INSERT INTO user VALUES('李三','lisan@ali.com','lisan','2016-05-19 14:43:32','2016-05-19 15:00:30');
+
+
+UPDATE user SET log_time='2016-5-18 10:10:10' WHERE nickname='王一';
+
+INSERT INTO category(cname,username) VALUES('Raiders','王一');
+INSERT INTO category(cname,username) VALUES('Assassin','王一');
+INSERT INTO category(cname,username) VALUES('影音娱乐','王一');
+INSERT INTO category(cname,username) VALUES('明星','王一');
+INSERT INTO category(cname,username) VALUES('动漫','王一');
+INSERT INTO category(cname,username) VALUES('游戏','王一');
+INSERT INTO category(cname,username) VALUES('计算机','王一');
+INSERT INTO category(cname,username) VALUES('摄影','Tracy');
+INSERT INTO category(cname,username) VALUES('笑话','Tracy');
+
+ALTER TABLE category DROP username;
+
+INSERT INTO crelation VALUES(1,2);
+INSERT INTO crelation VALUES(5,6);
+INSERT INTO crelation VALUES(5,7);
+INSERT INTO crelation VALUES(5,8);
+
+INSERT INTO note VALUES('Assassin','王一','simple','Really interesting!','2016-05-20 11:48:40',null,1,2);
+INSERT INTO note VALUES('计算机感悟','王一','simple','从入门到放弃','2016-05-20 12:33:43','2016-05-21 02:25:40',1,8);
+
+INSERT INTO usergroup VALUES('小小粉丝群','王一','我们都是兄弟',0);
+INSERT INTO usergroup VALUES('Travel','Maggi','Always on the way',0);
+
+INSERT INTO belong VALUES('Tracy','小小粉丝群');
+INSERT INTO belong VALUES('赵二','小小粉丝群');
+INSERT INTO belong VALUES('Bob','小小粉丝群');
+INSERT INTO belong VALUES('Tracy','Travel');
+INSERT INTO belong VALUES('王一','Travel');
+INSERT INTO belong VALUES('赵二','Travel');
+
+INSERT INTO comment(note,username,ccontent,ctime) VALUES('Assassin','Tracy','最近免费了？','2016-05-21 09:55:56');
+INSERT INTO comment(note,username,ccontent,ctime) VALUES('Assassin','Maggi','Get get!','2016-05-21 09:55:56');
+INSERT INTO comment(note,username,ccontent,ctime) VALUES('Assassin','Anna','good chance！','2016-05-21 09:55:56');
+
+INSERT INTO invatation(icontent,itime,send,receive,aim) VALUES('快乐追星','2016-05-22 13:55:10','王一','Tracy','小小粉丝群');
+
+INSERT INTO notice(username,ncontent,ntime) VALUES('Tracy','欢迎加入noter大家庭','2016-05-18 00:55:01');
+INSERT INTO notice(username,ncontent,ntime) VALUES('Tracy','您已成功加入王一的小组——小小粉丝群','2016-05-22 14:46:33');
+INSERT INTO notice(username,ncontent,ntime) VALUES('王一','欢迎加入noter大家庭','2016-05-18 00:55:01');
+INSERT INTO notice(username,ncontent,ntime) VALUES('王一','Tracy已同意加入您的小组——小小粉丝群','2016-05-22 14:46:33');
+
+
+INSERT INTO grouplog(groupname,gcontent,gtime) VALUES('小小粉丝群','Tracy加入','2016-05-22 14:46:33');
+INSERT INTO grouplog(groupname,gcontent,gtime) VALUES('小小粉丝群','赵二加入','2016-05-20 08:42:10');
+INSERT INTO grouplog(groupname,gcontent,gtime) VALUES('小小粉丝群','Bob加入','2016-05-20 16:45:30');
+INSERT INTO grouplog(groupname,gcontent,gtime) VALUES('Travel','Tracy加入','2016-05-21 17:56:33');
+INSERT INTO grouplog(groupname,gcontent,gtime) VALUES('Travel','王一加入','2016-5-20 10:13:34');
+INSERT INTO grouplog(groupname,gcontent,gtime) VALUES('Travel','李三加入','2016-05-19 19:08:30');
+
+----------------------------------------建立视图--------------------------------------------------
+CREATE VIEW showgroups AS SELECT usergroup.gname AS groups,usergroup.username AS leader,belong.username AS member FROM usergroup JOIN belong ON usergroup.gname = belong.groupname GROUP BY usergroup.gname,usergroup.username; 
+
+CREATE VIEW showcategorys AS SELECT fc.cname AS father_category,cc.cname AS child_category,title AS notes FROM category AS fc LEFT JOIN crelation ON fc.cid=outcat RIGHT JOIN category AS cc ON incat=cc.cid LEFT JOIN note ON cc.cid=note.cid GROUP BY fc.cid,cc.cid,note.cid;
+
+----------------------------------------建立索引--------------------------------------------------
+CREATE INDEX category_name ON category(cname);  
+CREATE INDEX note_keyword ON note(keyword);
+
+----------------------------------------建立触发器-------------------------------------------------
+CREATE TRIGGER tri_add_mem AFTER INSERT ON belong FOR EACH ROW UPDATE usergroup SET mem_num=mem_num+1 WHERE gname=NEW.groupname;
+CREATE TRIGGER tri_del_mem AFTER DELETE ON belong FOR EACH ROW UPDATE usergroup SET mem_num=mem_num-1 WHERE gname=OLD.groupname;
+
+SELECT groupname, username FROM belong WHERE groupname IN (SELECT groupname FROM belong WHERE username='赵二' UNION SELECT gname FROM usergroup WHERE username='赵二') AND username<>'赵二';
+SELECT note.title,comment.username,comment.ccontent FROM note JOIN comment ON note.title = comment.note AND note.username = '王一' GROUP BY note.title,comment.username HAVING COUNT(comment.cid) >= 2;

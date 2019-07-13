@@ -1,0 +1,85 @@
+# depslib dependency file v1.0
+1463790891 source:d:\program files (x86)\codeblocks\code\fnoter\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<mysql.h>
+	<string.h>
+
+1249648272 d:\program files\mysql\mysql server 5.7\mysql32lib\include\mysql.h
+	<standards.h>
+	<sys/types.h>
+	<winsock2.h>
+	"mysql_version.h"
+	"mysql_com.h"
+	"mysql_time.h"
+	"my_list.h"
+	"typelib.h"
+	"my_alloc.h"
+
+1249663643 d:\program files\mysql\mysql server 5.7\mysql32lib\include\mysql_version.h
+	<custom_conf.h>
+
+1249648272 d:\program files\mysql\mysql server 5.7\mysql32lib\include\mysql_com.h
+
+1249648272 d:\program files\mysql\mysql server 5.7\mysql32lib\include\mysql_time.h
+
+1249648272 d:\program files\mysql\mysql server 5.7\mysql32lib\include\my_list.h
+
+1249648272 d:\program files\mysql\mysql server 5.7\mysql32lib\include\typelib.h
+	"my_alloc.h"
+
+1249648272 d:\program files\mysql\mysql server 5.7\mysql32lib\include\my_alloc.h
+
+1555584857 source:d:\作业\数据库系统\c语言完整报告\database-system-master\experiment\experiment3\fnoter\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<mysql.h>
+	<string.h>
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql.h
+	<sys/types.h>
+	<windows.h>
+	<winsock2.h>
+	"mysql_version.h"
+	"mysql_com.h"
+	"mysql_time.h"
+	"my_list.h"
+	"mysql/client_plugin.h"
+	"typelib.h"
+	"my_alloc.h"
+
+1545391190 d:\allcodes\database\mysql-5.7.25-win32\include\mysql_version.h
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql_com.h
+	"binary_log_types.h"
+	"my_command.h"
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\binary_log_types.h
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\my_command.h
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql_time.h
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\my_list.h
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql\client_plugin.h
+	<stdarg.h>
+	<stdlib.h>
+	"plugin_auth_common.h"
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql\plugin_auth_common.h
+	<windows.h>
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\typelib.h
+	"my_alloc.h"
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\my_alloc.h
+	"mysql/psi/psi_memory.h"
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql\psi\psi_memory.h
+	"psi_base.h"
+
+1545388780 d:\allcodes\database\mysql-5.7.25-win32\include\mysql\psi\psi_base.h
+
