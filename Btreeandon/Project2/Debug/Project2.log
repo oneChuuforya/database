@@ -1,0 +1,5 @@
+﻿  Btree.cpp
+  menu.cpp
+d:\allcodes\vscode\btreeandon\project2\menu.cpp(8): warning C4101: “n”: 未引用的局部变量
+  正在生成代码...
+  Project2.vcxproj -> D:\allcodes\vscode\Btreeandon\Debug\Project2.exe
